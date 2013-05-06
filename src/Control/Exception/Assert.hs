@@ -23,10 +23,10 @@ instance Exception Arse where
         AssertionFailed failure <- fromException se
         return (Arse failure)
 
--- | Generic helper for 'assert' that includes a descriptive message to the
--- 'AssertFailure' exception if thrown. Use this to build your own 'assert'
--- helpers, such as 'byOrd'. A rule is included which rewrites
--- 'assertMessage' to 'id' when compiling with @-fignore-asserts@.
+-- | Generic helper for 'assert' that maps 'AssertFailure' 'Exception's to
+-- 'Arse', adding a descriptive message along the way. Use this to build
+-- your own 'assert' helpers, such as 'byOrd'. A rule is included which
+-- rewrites 'assertMessage' to 'id' when compiling with @-fignore-asserts@.
 {-# INLINE [1] assertMessage #-}
 {-# RULES "assertMessage" forall name msg.
     assertMessage name msg (\x -> x) = id #-}
