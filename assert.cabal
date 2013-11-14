@@ -1,5 +1,5 @@
 name:           assert
-version:        0.0.1.0
+version:        0.0.1.1
 synopsis:       Helpers for Control.Exception.assert
 description:
     GHC supports compile-time toggling of run-time assertions via the
