@@ -1,6 +1,8 @@
 import Prelude
 import Control.Exception.Assert
 import Control.Monad
+import qualified Data.ByteString.Char8 as BS
+import Data.Monoid
 import Distribution.PackageDescription
 import Distribution.Simple
 import Distribution.Simple.LocalBuildInfo
@@ -21,11 +23,13 @@ hook :: PackageDescription -> LocalBuildInfo -> UserHooks -> BuildFlags -> IO ()
 hook pd lbi uh bf = do
     forM_ ["hi", "o"] $ \ suf -> removeFile $
         buildDir lbi </> "rewrite" </> "rewrite-tmp" </> "Main" <.> suf
+
+    -- some versions of GHC prints to stderr
     (err, (out, _)) <- redirectStderr . redirectStdout $
         buildHook simpleUserHooks pd lbi uh bf
-    let combined = err ++ out
-    unless ("Rule fired: assertMessage" `elem` lines combined) $ do
-        putStr combined
+    let combined = BS.lines err <> BS.lines out
+    unless (BS.pack "Rule fired: assertMessage" `elem` combined) $ do
+        mapM_ BS.putStrLn combined
         putStrLn "Rule NOT fired: assertMessage"
         exitWith (ExitFailure 1)
 

@@ -37,8 +37,8 @@ test-suite rewrite
     type: exitcode-stdio-1.0
     hs-source-dirs: tests
     main-is: rewrite.hs
-    build-depends: assert, base, Cabal, directory, filepath,
-        system-posix-redirect >= 1.0.0.1
+    build-depends: assert, base, bytestring, Cabal, directory, filepath,
+        system-posix-redirect >= 1.1
     ghc-options: -Wall -fignore-asserts
 
 -- vim: et sw=4 ts=4 sts=4:
