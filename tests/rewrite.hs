@@ -1,4 +1,5 @@
 import Prelude
+import Control.Exception (IOException, catch)
 import Control.Exception.Assert
 import Control.Monad
 import qualified Data.ByteString.Char8 as BS
@@ -21,8 +22,9 @@ main = byPred assert "false" id False $ do
 
 hook :: PackageDescription -> LocalBuildInfo -> UserHooks -> BuildFlags -> IO ()
 hook pd lbi uh bf = do
-    forM_ ["hi", "o"] $ \ suf -> removeFile $
-        buildDir lbi </> "rewrite" </> "rewrite-tmp" </> "Main" <.> suf
+    -- more reliable way to force a rebuild?
+    removeDirectoryRecursive (buildDir lbi </> "rewrite" </> "rewrite-tmp")
+        `catch` \ e -> return () `const` (e :: IOException)
 
     -- some versions of GHC prints to stderr
     (err, (out, _)) <- redirectStderr . redirectStdout $
