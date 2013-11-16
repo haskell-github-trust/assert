@@ -1,4 +1,9 @@
+{-# LANGUAGE CPP #-}
+
 import Prelude
+#if !MIN_VERSION_base(4,6,0)
+    hiding (catch)
+#endif
 import Control.Exception (IOException, catch)
 import Control.Exception.Assert
 import Control.Monad

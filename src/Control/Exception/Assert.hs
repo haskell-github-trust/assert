@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
@@ -7,6 +8,9 @@ module Control.Exception.Assert
     ) where
 
 import Prelude
+#if !MIN_VERSION_base(4,6,0)
+    hiding (catch)
+#endif
 import Control.Applicative
 import Control.Exception
 import Data.Data
