@@ -2,5 +2,6 @@
 
 SRC="$(sed -ne 's/^\W*hs-source-dirs:\W*\(.*\)$/\1/p' *.cabal)"
 hlint --cpp-simple ${SRC:-.} \
+	-i "Evaluate" \
 	-i "Use id"
 
